@@ -1,13 +1,18 @@
-// Appication v. 1.0b
+// Appication v. 1.0 final
 document.querySelector('#loan-form').addEventListener('submit', calculate);
 
 function calculate(e) {
   console.log('Calculating...');
 
+  //GIF Loader
+  const loading = document.getElementById('loading');
+  const results = document.getElementById('results');
+
   const amount = document.getElementById('amount');
   const interest = document.getElementById('interest');
   const years = document.getElementById('years');
-  const monthlyPayment = document.getElementById('monthly-payment');
+  const monthlyPayment = document.getElementById('monthly-payment')
+  ;
   const totalPayment = document.getElementById('total-payment');
   const totalInterest = document.getElementById('total-interest');
   
@@ -18,7 +23,14 @@ function calculate(e) {
   const x = Math.pow(1 + calculatedInterest, calculatedPayments);
   const monthly = (principal * x * calculatedInterest) / (x-1);
 
-  if(isFinite(monthly)) { 
+  if(isFinite(monthly)) {
+    results.classList.add('d-none');
+    loading.className = '';
+
+    setTimeout(function() {
+      results.classList.remove('d-none');
+      loading.className = 'd-none';
+    }, 1500);
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
